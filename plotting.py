@@ -467,7 +467,7 @@ def get_recog_positive_rates(net, gen_recog_data, xscale='log', upToR=float('-in
     acc = float('inf')
     truePos = 1; falsePos = 0
     R = 1
-    while (truePos > falsePos or R < upToR) and R < stopAtR:
+    while R < stopAtR: # (truePos > falsePos or R < upToR) and R < stopAtR:
         testData = gen_recog_data(R)
         with torch.no_grad():
             try:

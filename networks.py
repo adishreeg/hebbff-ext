@@ -5,6 +5,7 @@ from torch.utils.data import TensorDataset
 import torch.nn.functional as F
 import numpy as np
 import scipy.special as sps
+from scipy.stats import norm
 
 from net_utils import StatefulBase, check_dims, random_weight_init, binary_classifier_accuracy
 
@@ -121,6 +122,7 @@ class HebbNet(StatefulBase):
         """This modifies the internal state of the model (self.A). 
         Don't call twice in a row unless you want to update self.A twice!"""
                 
+        x = x.reshape(-1)
         w1 = self.g1*self.w1 if not torch.isnan(self.g1) else self.w1
             
         a1 = torch.addmv(self.b1, w1+self.A, x) #hidden layer activation
@@ -164,6 +166,7 @@ class HebbNet(StatefulBase):
               'a2' : torch.empty_like(batch[1]),
               'out' : torch.empty_like(batch[1])}
         for t,(x,y) in enumerate(zip(*batch)):
+            x = x.reshape(-1)
             db['Ax'][t] = torch.mv(self.A, x) 
             try: isFam = bool(y)
             except: isFam = bool(y[0])

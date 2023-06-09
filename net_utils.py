@@ -299,6 +299,9 @@ def train_dataset(net, trainData, validBatch=None, epochs=100, batchSize=None, e
             print('Converged, stopping early.')
             break                                    
         
+        
+    
+
     
 def train_infinite(net, gen_data, iters=float('inf'), batchSize=None, earlyStop=True):     
     trainBatch = gen_data()[:,0,:] if batchSize is None else gen_data()[:,:batchSize,:] 
